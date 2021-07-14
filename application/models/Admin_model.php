@@ -21,7 +21,7 @@ class Admin_model extends CI_Model
 
     function get_booking_pending()
     {
-        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'PENDING' ORDER BY id DESC;";
+        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'PENDING' ORDER BY id DESC";
         $data['pending'] = $this->db->query($query)->result();
 
         return $data;
@@ -37,7 +37,7 @@ class Admin_model extends CI_Model
 
     function get_booking_history()
     {
-        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'SUCCESS' ORDER BY id DESC;";
+        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'SUCCESS' ORDER BY id DESC";
         $data['history'] = $this->db->query($query)->result();
 
         return $data;
@@ -45,7 +45,7 @@ class Admin_model extends CI_Model
 
     function get_booking_unpaid()
     {
-        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'UNPAID' ORDER BY id DESC;";
+        $query = "SELECT a.*, b.identity_number, b.name, c.name AS type_name FROM transactions a INNER JOIN users b ON a.id_user = b.id INNER JOIN rooms_type c ON a.id_type = c.id WHERE status = 'UNPAID' ORDER BY id DESC";
         $data['unpaid'] = $this->db->query($query)->result();
 
         return $data;
@@ -77,5 +77,21 @@ class Admin_model extends CI_Model
         $sql = "SELECT count(id) as id FROM users";
         $result = $this->db->query($sql);
         return $result->row()->id;
+    }
+
+    function get_users()
+    {
+        $query = "SELECT * FROM users ORDER BY id DESC";
+        $data['users'] = $this->db->query($query)->result();
+
+        return $data;
+    }
+
+    function get_groups()
+    {
+        $query = "SELECT * FROM groups ORDER BY id DESC";
+        $data['groups'] = $this->db->query($query)->result();
+
+        return $data;
     }
 }

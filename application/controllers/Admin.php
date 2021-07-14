@@ -17,7 +17,7 @@ class Admin extends CI_Controller
     public function index()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Dashboard";
                 $data['users'] = $this->admin_model->count_users();
                 $data['rooms_type'] = $this->admin_model->count_rooms_type();
@@ -35,7 +35,7 @@ class Admin extends CI_Controller
     public function rooms_type()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Rooms Type";
                 $data['rooms_type'] = $this->admin_model->get_rooms_type();
                 $this->load->view('admin/rooms_type', $data);
@@ -50,7 +50,7 @@ class Admin extends CI_Controller
     public function add_rooms_type()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $this->form_validation->set_rules('name', 'Room Type', 'trim|required');
 
                 $config['upload_path']          = './assets/upload/icon';
@@ -91,7 +91,7 @@ class Admin extends CI_Controller
     public function delete_rooms_type($id)
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 if ($id == "") {
                     $this->session->set_flashdata('error', "Room type failed to remove.");
                     redirect(base_url('admin/rooms-type'));
@@ -112,7 +112,7 @@ class Admin extends CI_Controller
     public function update_rooms_type($id)
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $this->form_validation->set_rules('name', 'Room Type', 'trim|required');
 
                 $config['upload_path']          = './assets/upload/icon';
@@ -167,7 +167,7 @@ class Admin extends CI_Controller
     public function rooms()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Rooms";
                 $data['rooms'] = $this->admin_model->get_rooms();
                 $data['rooms_type'] = $this->admin_model->get_rooms_type();
@@ -183,7 +183,7 @@ class Admin extends CI_Controller
     public function add_rooms()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $this->form_validation->set_rules('number', 'Room Number', 'trim|required|is_unique[rooms.number]');
                 $this->form_validation->set_rules('type', 'Room Type', 'trim|required');
                 $this->form_validation->set_rules('status', 'Room Status', 'trim|required');
@@ -214,7 +214,7 @@ class Admin extends CI_Controller
     public function delete_rooms($id)
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 if ($id == "") {
                     $this->session->set_flashdata('error', "Room failed to remove.");
                     redirect(base_url('admin/rooms'));
@@ -235,7 +235,7 @@ class Admin extends CI_Controller
     public function update_rooms($id)
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $this->form_validation->set_rules('number', 'Room Number', 'trim|required');
                 $this->form_validation->set_rules('type', 'Room Type', 'trim|required');
                 $this->form_validation->set_rules('status', 'Room Status', 'trim|required');
@@ -245,7 +245,8 @@ class Admin extends CI_Controller
                     $data = array(
                         'number' => $this->input->post('number'),
                         'id_type' => $this->input->post('type'),
-                        'status' => $this->input->post('status')
+                        'status' => $this->input->post('status'),
+                        'updated_at' => date('Y-m-d H:i:s')
                     );
 
                     $this->db->where('id', $id);
@@ -267,7 +268,7 @@ class Admin extends CI_Controller
     public function booking_pending()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Booking Pending";
                 $data['pending'] = $this->admin_model->get_booking_pending();
                 $data['rooms_unbooked'] = $this->admin_model->get_rooms_unbooked();
@@ -283,14 +284,15 @@ class Admin extends CI_Controller
     public function approve_booking($id)
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $this->form_validation->set_rules('number', 'Room Number', 'trim|required');
 
                 if ($this->form_validation->run() == TRUE) {
 
                     $data = array(
                         'id_room' => $this->input->post('number'),
-                        'status' => 'SUCCESS'
+                        'status' => 'SUCCESS',
+                        'updated_at' => date('Y-m-d H:i:s')
                     );
 
                     $this->db->where('id', $id);
@@ -320,7 +322,7 @@ class Admin extends CI_Controller
     public function booking_history()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Booking History";
                 $data['history'] = $this->admin_model->get_booking_history();
                 $data['rooms'] = $this->admin_model->get_rooms();
@@ -336,10 +338,251 @@ class Admin extends CI_Controller
     public function booking_unpaid()
     {
         if ($this->auth_model->logged_id()) {
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 $data['title'] = "Booking Unpaid";
                 $data['unpaid'] = $this->admin_model->get_booking_unpaid();
                 $this->load->view('admin/booking_unpaid', $data);
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function users()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $data['title'] = "Users Management";
+                $data['users'] = $this->admin_model->get_users();
+                $data['groups'] = $this->admin_model->get_groups();
+                $this->load->view('admin/users', $data);
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function add_user()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('email', 'Email', 'trim|required|is_unique[users.email]');
+                $this->form_validation->set_rules('password', 'Password', 'trim|required');
+                $this->form_validation->set_rules('identity', 'Identity Number', 'trim|required');
+                $this->form_validation->set_rules('city', 'City', 'trim|required');
+                $this->form_validation->set_rules('phone', 'Phone', 'trim|required');
+                $this->form_validation->set_rules('group', 'Group', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    date_default_timezone_set('Asia/Jakarta');
+
+                    $mail = str_replace("'", "", htmlspecialchars(strtolower($this->input->post('email')), ENT_QUOTES));
+
+                    $add = array(
+                        'id_group' => $this->input->post('group'),
+                        'name' => $this->input->post('name'),
+                        'email' => strtolower(strtolower($this->input->post('email'))),
+                        'password' => MD5($this->input->post('password')),
+                        'identity_number' => $this->input->post('identity'),
+                        'city' => $this->input->post('city'),
+                        'phone' => $this->input->post('phone')
+                    );
+
+                    $cek_email = $this->db->query("SELECT * FROM users WHERE email = '$mail'");
+
+                    if ($cek_email->num_rows()) {
+                        $this->session->set_flashdata('error', "Email already exists.");
+                        redirect(base_url('admin/users'));
+                    } else {
+                        $this->db->insert('users', $add);
+                        $this->session->set_flashdata('success', "Add User successfully");
+                        redirect(base_url('admin/users'));
+                    }
+                } else {
+                    $this->session->set_flashdata('error', "Add User failed.");
+                    redirect(base_url('admin/users'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function delete_user($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                if ($id == "") {
+                    $this->session->set_flashdata('error', "User failed to remove.");
+                    redirect(base_url('admin/users'));
+                } else {
+                    $this->db->where('id', $id);
+                    $this->db->delete('users');
+                    $this->session->set_flashdata('success', "User successfully removed.");
+                    redirect(base_url('admin/users'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function edit_user($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('email', 'Email', 'trim|required');
+                $this->form_validation->set_rules('identity', 'Identity Number', 'trim|required');
+                $this->form_validation->set_rules('city', 'City', 'trim|required');
+                $this->form_validation->set_rules('phone', 'Phone', 'trim|required');
+                $this->form_validation->set_rules('group', 'Group', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    date_default_timezone_set('Asia/Jakarta');
+
+                    if ($this->input->post('password') == '') {
+                        $add = array(
+                            'id_group' => $this->input->post('group'),
+                            'name' => $this->input->post('name'),
+                            'email' => strtolower(strtolower($this->input->post('email'))),
+                            'identity_number' => $this->input->post('identity'),
+                            'city' => $this->input->post('city'),
+                            'phone' => $this->input->post('phone'),
+                            'updated_at' => date('Y-m-d H:i:s')
+                        );
+                    }
+
+                    if ($this->input->post('password') != '') {
+                        $add = array(
+                            'id_group' => $this->input->post('group'),
+                            'name' => $this->input->post('name'),
+                            'email' => strtolower(strtolower($this->input->post('email'))),
+                            'password' => MD5($this->input->post('password')),
+                            'identity_number' => $this->input->post('identity'),
+                            'city' => $this->input->post('city'),
+                            'phone' => $this->input->post('phone'),
+                            'updated_at' => date('Y-m-d H:i:s')
+                        );
+                    }
+
+                    $this->db->where('id', $id);
+                    $this->db->update('users', $add);
+                    $this->session->set_flashdata('success', "User successfully edited");
+                    redirect(base_url('admin/users'));
+                } else {
+                    $this->session->set_flashdata('error', "Failed to adit user.");
+                    redirect(base_url('admin/users'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function groups()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $data['title'] = "Groups Management";
+                $data['groups'] = $this->admin_model->get_groups();
+                $this->load->view('admin/groups', $data);
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function add_group()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('description', 'Description', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    $add = array(
+                        'name' => $this->input->post('name'),
+                        'description' => $this->input->post('description')
+                    );
+
+                    $this->db->insert('groups', $add);
+                    $this->session->set_flashdata('success', "Add Group successfully");
+                    redirect(base_url('admin/groups'));
+                } else {
+                    $this->session->set_flashdata('error', "Add Group failed.");
+                    redirect(base_url('admin/groups'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function delete_group($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                if ($id == "") {
+                    $this->session->set_flashdata('error', "Group failed to remove.");
+                    redirect(base_url('admin/groups'));
+                } else {
+                    $this->db->where('id', $id);
+                    $this->db->delete('groups');
+                    $this->session->set_flashdata('success', "Group successfully removed.");
+                    redirect(base_url('admin/groups'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function edit_group($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('description', 'Description', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    date_default_timezone_set('Asia/Jakarta');
+
+                    $add = array(
+                        'name' => $this->input->post('name'),
+                        'description' => $this->input->post('description'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    );
+
+                    $this->db->where('id', $id);
+                    $this->db->update('groups', $add);
+                    $this->session->set_flashdata('success', "Group successfully edited");
+                    redirect(base_url('admin/groups'));
+                } else {
+                    $this->session->set_flashdata('error', "Failed to adit group.");
+                    redirect(base_url('admin/groups'));
+                }
             } else {
                 redirect(base_url());
             }

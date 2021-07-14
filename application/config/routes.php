@@ -68,8 +68,8 @@ $route['admin/rooms'] = "admin/rooms";
 $route['admin/booking-pending'] = "admin/booking_pending";
 $route['admin/booking-unpaid'] = "admin/booking_unpaid";
 $route['admin/booking-history'] = "admin/booking_history";
-
-
+$route['admin/users'] = "admin/users";
+$route['admin/groups'] = "admin/groups";
 
 // TEST
 $route['test'] = "home/test";

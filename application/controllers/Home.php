@@ -49,7 +49,7 @@ class Home extends CI_Controller
     public function register_proses()
     {
         $this->form_validation->set_rules('name', 'Name', 'trim|required');
-        $this->form_validation->set_rules('email', 'Email', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required|is_unique[users.email]');
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         $this->form_validation->set_rules('identity', 'Identity Number', 'trim|required');
         $this->form_validation->set_rules('city', 'City', 'trim|required');
@@ -90,7 +90,7 @@ class Home extends CI_Controller
     {
         if ($this->auth_model->logged_id()) {
             //jika memang session sudah terdaftar, maka redirect ke halaman dahsboard
-            if ($this->session->userdata('role') == 'admin') {
+            if ($this->session->userdata('id_group') == '1') {
                 redirect(base_url('admin'));
             } else {
                 redirect(base_url());
@@ -119,7 +119,7 @@ class Home extends CI_Controller
                     foreach ($checking as $apps) {
                         $session_data = array(
                             'id'   => $apps->id,
-                            'role'   => $apps->role,
+                            'id_group'   => $apps->id_group,
                             'name' => $apps->name,
                             'email' => $apps->email,
                             'password' => $apps->password,
@@ -133,7 +133,7 @@ class Home extends CI_Controller
                         //set session userdata
                         $this->session->set_userdata($session_data);
 
-                        if ($this->session->userdata('role') == 'admin') {
+                        if ($this->session->userdata('id_group') == '1') {
                             redirect(base_url('admin'));
                         } else {
                             redirect(base_url());
