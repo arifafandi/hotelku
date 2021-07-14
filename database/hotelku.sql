@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 07:50 AM
+-- Generation Time: Jul 14, 2021 at 02:20 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `hotelku`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'Administrator', '2021-07-14 14:24:21', '2021-07-14 14:24:21'),
+(2, 'member', 'Member', '2021-07-14 14:24:21', '2021-07-14 14:24:21');
 
 -- --------------------------------------------------------
 
@@ -114,7 +136,7 @@ INSERT INTO `transactions` (`id`, `id_user`, `id_type`, `id_room`, `check_in`, `
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `role` enum('member','admin') DEFAULT 'member',
+  `id_group` enum('1','2') DEFAULT '2' COMMENT '''1 = Admin'', ''2 = Member''',
   `name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -129,14 +151,20 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `role`, `name`, `email`, `password`, `identity_number`, `city`, `phone`, `created_at`, `updated_at`) VALUES
-(1, 'member', 'Muhammad Arif Afandi', 'arifafandi242@gmail.com', '25d55ad283aa400af464c76d713c07ad', '1343423', 'Malang', '085325315432', '2021-07-11 14:50:09', '2021-07-11 14:50:09'),
-(2, 'admin', 'Administrator', 'admin@mail.com', '21232f297a57a5a743894a0e4a801fc3', '12345678', 'malang', '908021484', '2021-07-11 15:29:38', '2021-07-11 15:29:38'),
-(3, 'member', 'Kelompok 18', 'rpl18@mail.com', '25d55ad283aa400af464c76d713c07ad', '678889477738', 'Malang', '082637366478', '2021-07-12 09:56:28', '2021-07-12 09:56:28');
+INSERT INTO `users` (`id`, `id_group`, `name`, `email`, `password`, `identity_number`, `city`, `phone`, `created_at`, `updated_at`) VALUES
+(1, '2', 'Muhammad Arif Afandi', 'arifafandi242@gmail.com', '25d55ad283aa400af464c76d713c07ad', '1343423', 'Malang', '085325315432', '2021-07-11 14:50:09', '2021-07-11 14:50:09'),
+(2, '1', 'Administrator', 'admin@mail.com', '21232f297a57a5a743894a0e4a801fc3', '12345678', 'malang', '908021484', '2021-07-11 15:29:38', '2021-07-11 15:29:38'),
+(3, '2', 'orang', 'rpl18@mail.com', '61ed5ddafed8497c9a6270d6b1949488', '678889477738', 'Malang', '082637366478', '2021-07-12 09:56:28', '2021-07-12 09:56:28');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `rooms`
@@ -171,6 +199,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -192,7 +226,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
