@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2021 at 02:20 PM
+-- Generation Time: Jul 15, 2021 at 09:26 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -41,7 +41,29 @@ CREATE TABLE `groups` (
 
 INSERT INTO `groups` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'Administrator', '2021-07-14 14:24:21', '2021-07-14 14:24:21'),
-(2, 'member', 'Member', '2021-07-14 14:24:21', '2021-07-14 14:24:21');
+(2, 'member', 'Member', '2021-07-15 10:11:22', '2021-07-15 10:11:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menus`
+--
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(50) NOT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  `display` enum('0','1') NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `name`, `url`, `icon`, `display`) VALUES
+(1, 'Home', '/', 'feather icon-home', '1'),
+(2, 'History', 'histori', 'feather icon-file-text', '1');
 
 -- --------------------------------------------------------
 
@@ -167,6 +189,12 @@ ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -203,6 +231,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rooms`
