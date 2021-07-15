@@ -70,6 +70,7 @@ $route['admin/booking-unpaid'] = "admin/booking_unpaid";
 $route['admin/booking-history'] = "admin/booking_history";
 $route['admin/users'] = "admin/users";
 $route['admin/groups'] = "admin/groups";
+$route['admin/menus'] = "admin/menus";
 
 // TEST
 $route['test'] = "home/test";

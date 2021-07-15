@@ -18,12 +18,14 @@ class Home extends CI_Controller
         $data['title'] = "Home";
         $data['rooms_type'] = $this->home_model->get_rooms_type();
         $data['rooms_available'] = $this->home_model->get_rooms_available();
+        $data['menus'] = $this->home_model->get_menus();
         $this->load->view('home', $data);
     }
 
     public function room_detail($id)
     {
         $data['title'] = "Booking";
+        $data['menus'] = $this->home_model->get_menus();
         $query = $this->home_model->get_detail_rooms($id);
         // validasi jika data ditemukan
         if ($query->num_rows() > 0) {
@@ -192,6 +194,7 @@ class Home extends CI_Controller
     public function history()
     {
         $data['title'] = "History";
+        $data['menus'] = $this->home_model->get_menus();
         if ($this->auth_model->logged_id()) {
             $data['title'] = "History";
             $data['history'] = $this->home_model->get_history($this->session->userdata('id'));

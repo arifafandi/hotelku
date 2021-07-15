@@ -590,4 +590,105 @@ class Admin extends CI_Controller
             redirect(base_url('login'));
         }
     }
+
+    public function menus()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $data['title'] = "Menus Management";
+                $data['menus'] = $this->admin_model->get_menus();
+                $this->load->view('admin/menus', $data);
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function add_menu()
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('url', 'URL', 'trim|required');
+                $this->form_validation->set_rules('display', 'Display', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    $add = array(
+                        'name' => $this->input->post('name'),
+                        'url' => $this->input->post('url'),
+                        'icon' => $this->input->post('icon'),
+                        'display' => $this->input->post('display')
+                    );
+
+                    $this->db->insert('menus', $add);
+                    $this->session->set_flashdata('success', "Add Menu successfully");
+                    redirect(base_url('admin/menus'));
+                } else {
+                    $this->session->set_flashdata('error', "Add Menu failed.");
+                    redirect(base_url('admin/menus'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function delete_menu($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                if ($id == "") {
+                    $this->session->set_flashdata('error', "Group failed to remove.");
+                    redirect(base_url('admin/groups'));
+                } else {
+                    $this->db->where('id', $id);
+                    $this->db->delete('groups');
+                    $this->session->set_flashdata('success', "Group successfully removed.");
+                    redirect(base_url('admin/groups'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
+
+    public function edit_menu($id)
+    {
+        if ($this->auth_model->logged_id()) {
+            if ($this->session->userdata('id_group') == '1') {
+                $this->form_validation->set_rules('name', 'Name', 'trim|required');
+                $this->form_validation->set_rules('url', 'URL', 'trim|required');
+                $this->form_validation->set_rules('display', 'Display', 'trim|required');
+
+                if ($this->form_validation->run() == TRUE) {
+
+                    $add = array(
+                        'name' => $this->input->post('name'),
+                        'url' => $this->input->post('url'),
+                        'icon' => $this->input->post('icon'),
+                        'display' => $this->input->post('display')
+                    );
+
+                    $this->db->where('id', $id);
+                    $this->db->update('menus', $add);
+                    $this->session->set_flashdata('success', "Menu successfully edited");
+                    redirect(base_url('admin/menus'));
+                } else {
+                    $this->session->set_flashdata('error', "Failed to edit Menu.");
+                    redirect(base_url('admin/menus'));
+                }
+            } else {
+                redirect(base_url());
+            }
+        } else {
+            redirect(base_url('login'));
+        }
+    }
 }

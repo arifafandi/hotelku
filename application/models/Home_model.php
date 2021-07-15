@@ -50,4 +50,12 @@ class Home_model extends CI_Model
 
         return $data;
     }
+
+    function get_menus()
+    {
+        $query = "SELECT * FROM menus WHERE display = '1'";
+        $data['menus'] = $this->db->query($query)->result();
+
+        return $data;
+    }
 }

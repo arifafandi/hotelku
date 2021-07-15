@@ -94,4 +94,12 @@ class Admin_model extends CI_Model
 
         return $data;
     }
+
+    function get_menus()
+    {
+        $query = "SELECT * FROM menus ORDER BY id DESC";
+        $data['menus'] = $this->db->query($query)->result();
+
+        return $data;
+    }
 }

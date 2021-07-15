@@ -29,8 +29,8 @@
                 <li class="nav-item"><a href="<?php echo base_url('admin/groups'); ?>" class="nav-link "><span class="pcoded-micon"><i class="fas fa-layer-group"></i></span>
                         <span class="pcoded-mtext">Groups Management</span></a>
                 </li>
-                <li class="nav-item"><a href="<?php echo base_url('admin'); ?>" class="nav-link "><span class="pcoded-micon"><i class="feather icon-menu"></i></span>
-                        <span class="pcoded-mtext">Menu</span></a>
+                <li class="nav-item"><a href="<?php echo base_url('admin/menus'); ?>" class="nav-link "><span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+                        <span class="pcoded-mtext">Menus Management</span></a>
                 </li>
                 <li class="nav-item"><a href="<?php echo base_url('logout'); ?>" class="nav-link "><span class="pcoded-micon"><i class="feather icon-log-out"></i></span>
                         <span class="pcoded-mtext">Logout</span></a>
